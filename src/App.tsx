@@ -21,7 +21,7 @@ export default function App() {
   const [shorts, setShorts] = useState<YouTubeVideo[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [activeVideo, setActiveVideo] = useState<YouTubeVideo | null>(null);
-  const [activeShortsIndex, setActiveShortsIndex] = useState<number | null>(null);
+  const [activeShortsPayload, setActiveShortsPayload] = useState<{ shorts: YouTubeVideo[], initialIndex: number } | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [showClearConfirm, setShowClearConfirm] = useState(false);
 
@@ -35,11 +35,18 @@ export default function App() {
       setIsLoading(true);
       setError(null);
       try {
+        let data;
         const query = searchQuery;
-        const res = await fetch(`/api/videos?maxResults=100&q=${encodeURIComponent(query)}`);
-        if (!res.ok) throw new Error('Failed to fetch videos');
-        const data = await res.json();
-        if (data.error) throw new Error(data.error);
+        try {
+          const res = await fetch(`/api/videos?maxResults=100&q=${encodeURIComponent(query)}`);
+          if (!res.ok) throw new Error('API route not available');
+          data = await res.json();
+          if (data.error) throw new Error(data.error);
+        } catch (fetchError) {
+          console.warn("Falling back to mock data:", fetchError);
+          const { mockVideos } = await import('../mockData');
+          data = { items: mockVideos(20) };
+        }
         setVideos(data.items || []);
       } catch (err: any) {
         console.error(err);
@@ -58,11 +65,17 @@ export default function App() {
 
     async function fetchShorts() {
       try {
-        // Query specifically for shorts format within the topic
+        let data;
         const query = `${activeCategoryQuery} shorts vertical`;
-        const res = await fetch(`/api/videos?maxResults=50&videoDuration=short&q=${encodeURIComponent(query)}`);
-        if (!res.ok) return;
-        const data = await res.json();
+        try {
+          const res = await fetch(`/api/videos?maxResults=50&videoDuration=short&q=${encodeURIComponent(query)}`);
+          if (!res.ok) throw new Error('API route not available');
+          data = await res.json();
+        } catch (fetchError) {
+          console.warn("Falling back to mock shorts:", fetchError);
+          const { mockShorts } = await import('../mockData');
+          data = { items: mockShorts(15) };
+        }
         setShorts(data.items || []);
       } catch (error) {
         console.error('Failed to fetch shorts', error);
@@ -94,12 +107,12 @@ export default function App() {
 
   const handleShortClick = (video: YouTubeVideo) => {
     const idx = displayShorts.findIndex(s => {
-      const vId = typeof s.id === 'string' ? s.id : s.id.videoId;
-      const targetId = typeof video.id === 'string' ? video.id : video.id.videoId;
+      const vId = typeof s.id === 'string' ? s.id : (s.id as any).videoId;
+      const targetId = typeof video.id === 'string' ? video.id : (video.id as any).videoId;
       return vId === targetId;
     });
     if (idx !== -1) {
-      setActiveShortsIndex(idx);
+      setActiveShortsPayload({ shorts: displayShorts, initialIndex: idx });
     }
   };
 
@@ -258,11 +271,11 @@ export default function App() {
         onWatch={addToHistory}
       />
 
-      {activeShortsIndex !== null && (
+      {activeShortsPayload !== null && (
         <ShortsReelModal 
-          shorts={displayShorts} 
-          initialIndex={activeShortsIndex} 
-          onClose={() => setActiveShortsIndex(null)}
+          shorts={activeShortsPayload.shorts} 
+          initialIndex={activeShortsPayload.initialIndex} 
+          onClose={() => setActiveShortsPayload(null)}
           onVideoWatch={addToHistory}
         />
       )}

@@ -11,7 +11,9 @@ interface ShortsReelModalProps {
 
 export function ShortsReelModal({ shorts, initialIndex, onClose, onVideoWatch }: ShortsReelModalProps) {
   const [currentIndex, setCurrentIndex] = useState(initialIndex);
+  const [playingIndex, setPlayingIndex] = useState(initialIndex);
   const containerRef = useRef<HTMLDivElement>(null);
+  const scrollTimeoutRef = useRef<any>(null);
 
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
@@ -22,14 +24,15 @@ export function ShortsReelModal({ shorts, initialIndex, onClose, onVideoWatch }:
     return () => {
       document.body.style.overflow = '';
       window.removeEventListener('keydown', handleEscape);
+      if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
     };
   }, [onClose]);
 
   useEffect(() => {
-    if (shorts[currentIndex]) {
-      onVideoWatch(shorts[currentIndex]);
+    if (shorts[playingIndex]) {
+      onVideoWatch(shorts[playingIndex]);
     }
-  }, [currentIndex, shorts, onVideoWatch]);
+  }, [playingIndex, shorts, onVideoWatch]);
 
   const handleScroll = () => {
     if (!containerRef.current) return;
@@ -37,6 +40,11 @@ export function ShortsReelModal({ shorts, initialIndex, onClose, onVideoWatch }:
     if (index !== currentIndex && index >= 0 && index < shorts.length) {
       setCurrentIndex(index);
     }
+
+    if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
+    scrollTimeoutRef.current = setTimeout(() => {
+      setPlayingIndex(index);
+    }, 300);
   };
 
   const scrollToNext = () => {
@@ -89,18 +97,18 @@ export function ShortsReelModal({ shorts, initialIndex, onClose, onVideoWatch }:
       <div 
         ref={containerRef}
         onScroll={handleScroll}
-        className="relative w-full max-w-[450px] h-[100dvh] overflow-y-auto snap-y snap-mandatory no-scrollbar"
+        className="relative w-full max-w-[450px] h-full overflow-y-auto no-scrollbar snap-y snap-mandatory"
       >
         {shorts.map((short, idx) => {
-          const isCurrent = idx === currentIndex;
-          const videoId = typeof short.id === 'string' ? short.id : short.id.videoId;
+          const isPlaying = idx === playingIndex;
+          const videoId = typeof short.id === 'string' ? short.id : (short.id as any).videoId;
           const thumbnailUrl = short.snippet.thumbnails.maxres?.url || short.snippet.thumbnails.high?.url || short.snippet.thumbnails.medium.url;
 
           return (
-            <div key={videoId} className="w-full h-[100dvh] snap-center snap-always flex items-center justify-center py-6 px-2 sm:px-4 relative">
-               <div className="relative w-full h-full max-h-[85vh] bg-[#020617] rounded-2xl sm:rounded-[2rem] overflow-hidden shadow-2xl border border-white/10 flex flex-col group">
+            <div key={videoId} className="w-full h-full snap-start flex items-center justify-center py-6 px-2 sm:px-4 relative">
+               <div className="relative w-full h-full max-h-[85vh] sm:max-h-[850px] min-h-[500px] bg-[#020617] rounded-2xl sm:rounded-[2rem] overflow-hidden shadow-2xl border border-white/10 flex flex-col group">
                 <div className="flex-1 w-full bg-black relative">
-                  {isCurrent ? (
+                  {isPlaying ? (
                     <iframe 
                       src={`https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&controls=1&modestbranding=1&mute=0&loop=1&playlist=${videoId}`}
                       className="absolute inset-0 w-full h-full"

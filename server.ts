@@ -87,11 +87,46 @@ async function startServer() {
             searchQuery += ' shorts';
           }
           
-          const r = await yts(searchQuery);
-          let videos = r.videos;
+          let videos: yts.VideoSearchResult[] = [];
+          
+          if (maxResults >= 100 || searchQuery.toLowerCase().includes('zero to expert')) {
+            // Aggregate multiple searches for comprehensive learning paths
+            const searches = [
+              yts('web development full course zero to expert'),
+              yts('python from scratch complete course'),
+              yts('react js complete tutorial 2026'),
+              yts('javascript zero to mastery full course'),
+              yts('machine learning full course beginners expert'),
+              yts('data structures and algorithms complete'),
+              yts('system design interview full course'),
+              yts('sql complete course for beginners'),
+              yts('docker and kubernetes full course'),
+              yts('cyber security full course zero to expert')
+            ];
+            
+            const results = await Promise.all(searches);
+            for (const r of results) {
+               videos = videos.concat(r.videos);
+            }
+            // deduplicate
+            const seen = new Set<string>();
+            videos = videos.filter(v => {
+              if (seen.has(v.videoId)) return false;
+              seen.add(v.videoId);
+              return true;
+            });
+            // Ensure we have at least 100 if possible
+            videos = videos.slice(0, 150);
+          } else {
+            const r = await yts(searchQuery);
+            videos = r.videos;
+          }
           
           if (videoDuration === 'short') {
-            videos = videos.filter(v => v.seconds <= 60 || v.title.toLowerCase().includes('short'));
+            const shortVideos = videos.filter(v => v.seconds <= 60 || v.title.toLowerCase().includes('short') || v.title.toLowerCase().includes('#shorts'));
+            if (shortVideos.length > 0) {
+              videos = shortVideos;
+            }
           } else if (videoDuration === 'long') {
             videos = videos.filter(v => v.seconds > 1200);
           }
@@ -121,8 +156,10 @@ async function startServer() {
             }))
           };
           if (data.items.length === 0) throw new Error("No scraped results");
-        } catch (scrapeError) {
-          console.error("yt-search fallback failed:", scrapeError);
+        } catch (scrapeError: any) {
+          if (scrapeError.message !== "No scraped results") {
+            console.warn("yt-search fallback failed:", scrapeError.message);
+          }
           // Ultimate fallback
           data = {
             items: videoDuration === 'short' ? mockShorts(maxResults) : mockVideos(maxResults)
