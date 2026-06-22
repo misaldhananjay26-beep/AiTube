@@ -1,24 +1,21 @@
 export const TOPICS = [
   "All",
-  "AI Startups",
-  "Zero to Expert",
-  "Large Language Models",
+  "HTML",
+  "CSS",
+  "JavaScript",
+  "React",
+  "Node.js",
+  "Python",
+  "Data Structures",
+  "Algorithms",
   "Machine Learning",
-  "Deep Learning",
-  "Neural Networks",
-  "Generative AI",
-  "Prompt Engineering",
-  "Tech Entrepreneurship",
-  "ChatGPT",
-  "Cursor IDE",
-  "AI Agents",
-  "Computer Vision",
-  "NLP",
-  "Data Science",
-  "Open Source AI",
-  "Silicon Valley",
-  "Y Combinator",
-  "Vector Databases"
+  "C++",
+  "Java",
+  "SQL",
+  "NoSQL",
+  "Cloud Computing",
+  "AWS",
+  "Cybersecurity"
 ];
 
 interface TopicChipsProps {
@@ -28,7 +25,7 @@ interface TopicChipsProps {
 
 export function TopicChips({ activeTopic, onSelect }: TopicChipsProps) {
   return (
-    <div className="sticky top-16 z-30 py-3 px-6 flex gap-3 overflow-x-auto no-scrollbar scroll-smooth backdrop-blur-sm bg-[#020617]/50 border-b border-white/5">
+    <div className="sticky top-16 z-30 py-3 px-6 flex gap-3 overflow-x-auto no-scrollbar scroll-smooth backdrop-blur-sm bg-[#0f0f0f]/80 border-b border-[#303030]">
       {TOPICS.map(topic => (
         <button
           key={topic}

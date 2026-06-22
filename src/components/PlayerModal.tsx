@@ -47,9 +47,9 @@ export function PlayerModal({ video, onClose, onWatch }: PlayerModalProps) {
       />
       <div 
         ref={modalRef}
-        className="relative w-full max-w-5xl bg-[#020617]/90 rounded-2xl overflow-hidden shadow-2xl flex flex-col z-10 animate-in zoom-in-95 duration-200 border border-white/10 backdrop-blur-xl"
+        className="relative w-full max-w-5xl bg-[#0f0f0f] rounded-2xl overflow-hidden shadow-2xl flex flex-col z-10 animate-in zoom-in-95 duration-200 border border-[#303030]"
       >
-        <div className="flex items-center justify-between p-4 border-b border-white/10 bg-white/5">
+        <div className="flex items-center justify-between p-4 border-b border-[#303030] bg-[#0f0f0f]">
           <h2 className="text-white font-medium truncate pr-4">{video.snippet.title}</h2>
           <button 
             onClick={onClose}
@@ -68,7 +68,7 @@ export function PlayerModal({ video, onClose, onWatch }: PlayerModalProps) {
             title={video.snippet.title}
           />
         </div>
-        <div className="p-4 sm:p-6 bg-white/5 max-h-[30vh] overflow-y-auto">
+        <div className="p-4 sm:p-6 bg-[#0f0f0f] max-h-[30vh] overflow-y-auto">
           <div className="flex items-center gap-4 mb-4">
              <div className="w-10 h-10 shrink-0 rounded-full bg-indigo-500 flex items-center justify-center">
               <span className="text-white font-bold">{video.snippet.channelTitle.charAt(0)}</span>
@@ -78,7 +78,7 @@ export function PlayerModal({ video, onClose, onWatch }: PlayerModalProps) {
               <p className="text-white/50 text-sm">Channel</p>
             </div>
           </div>
-          <div className="bg-white/5 p-4 rounded-xl text-sm text-white/80 whitespace-pre-wrap font-sans leading-relaxed border border-white/5">
+          <div className="bg-[#272727] p-4 rounded-xl text-sm text-white whitespace-pre-wrap font-sans leading-relaxed border border-[#303030]">
             {video.snippet.description || 'No description available.'}
           </div>
         </div>

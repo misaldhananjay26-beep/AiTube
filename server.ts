@@ -131,7 +131,7 @@ async function startServer() {
             videos = videos.filter(v => v.seconds > 1200);
           }
           
-          videos = videos.slice(0, maxResults);
+          videos = videos.filter(v => typeof v.videoId === 'string' && v.videoId.length === 11).slice(0, maxResults);
           
           data = {
             items: videos.map((v, i) => ({

@@ -129,11 +129,7 @@ export default function App() {
   });
 
   return (
-    <div className="min-h-screen bg-[#020617] text-white flex flex-col font-sans overflow-hidden">
-      {/* Decorative Background Mesh */}
-      <div className="fixed top-0 right-0 w-[500px] h-[500px] bg-blue-600/10 blur-[120px] rounded-full -z-10 pointer-events-none"></div>
-      <div className="fixed bottom-0 left-0 w-[400px] h-[400px] bg-purple-600/10 blur-[120px] rounded-full -z-10 pointer-events-none"></div>
-
+    <div className="min-h-screen bg-[#0f0f0f] text-white flex flex-col font-sans overflow-hidden">
       <Header 
         onMenuClick={() => setIsSidebarOpen(!isSidebarOpen)}
         onSearch={handleSearch}
@@ -149,7 +145,7 @@ export default function App() {
           onViewSelect={setCurrentView}
         />
         
-        <main className="flex-1 flex flex-col min-w-0 overflow-y-auto">
+        <main className="flex-1 flex flex-col min-w-0 overflow-y-auto bg-[#0f0f0f]">
           {currentView === 'feed' && <TopicChips activeTopic={activeChip} onSelect={handleChipSelect} />}
           
           <div className="p-6 lg:p-8 max-w-[2000px] mx-auto w-full flex flex-col gap-6">
@@ -282,7 +278,7 @@ export default function App() {
 
       {showClearConfirm && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
-          <div className="bg-[#020617] border border-white/10 rounded-2xl p-6 max-w-sm w-full shadow-2xl animate-in zoom-in-95">
+          <div className="bg-[#121212] border border-[#303030] rounded-2xl p-6 max-w-sm w-full shadow-2xl animate-in zoom-in-95">
             <h3 className="text-lg font-bold mb-2">Clear Watch History?</h3>
             <p className="text-white/60 text-sm mb-6">This will remove all videos from your local watch history. This action cannot be undone.</p>
             <div className="flex justify-end gap-3">

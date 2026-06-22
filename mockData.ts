@@ -23,7 +23,7 @@ export function mockVideos(count: number) {
 }
 
 export function mockShorts(count: number) {
-  const realShortIds = ['m7CcjqT85rA', 'P_l_wK8s8v0', '6zJItM1Xm6I', 'S2_B50Zq5iQ'];
+  const realShortIds = ['aircAruvnKk', 'zjkBMFhNj_g', 'bZQun8Y4L2A'];
   return Array.from({ length: count }).map((_, i) => ({
     id: realShortIds[i % realShortIds.length],
     snippet: {

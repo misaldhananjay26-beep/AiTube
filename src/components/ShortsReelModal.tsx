@@ -68,7 +68,7 @@ export function ShortsReelModal({ shorts, initialIndex, onClose, onVideoWatch }:
   if (!shorts || shorts.length === 0) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#020617]/95 backdrop-blur-xl animate-in fade-in duration-200">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#0f0f0f]/95 backdrop-blur-xl animate-in fade-in duration-200">
        <button 
         onClick={onClose}
         className="absolute top-6 right-6 p-3 bg-white/10 hover:bg-white/20 rounded-full text-white/80 hover:text-white transition-colors z-50 shadow-xl"
@@ -106,7 +106,7 @@ export function ShortsReelModal({ shorts, initialIndex, onClose, onVideoWatch }:
 
           return (
             <div key={videoId} className="w-full h-full snap-start flex items-center justify-center py-6 px-2 sm:px-4 relative">
-               <div className="relative w-full h-full max-h-[85vh] sm:max-h-[850px] min-h-[500px] bg-[#020617] rounded-2xl sm:rounded-[2rem] overflow-hidden shadow-2xl border border-white/10 flex flex-col group">
+               <div className="relative w-full h-full max-h-[85vh] sm:max-h-[850px] min-h-[500px] bg-[#0f0f0f] rounded-2xl sm:rounded-[2rem] overflow-hidden shadow-2xl border border-[#303030] flex flex-col group">
                 <div className="flex-1 w-full bg-black relative">
                   {isPlaying ? (
                     <iframe 

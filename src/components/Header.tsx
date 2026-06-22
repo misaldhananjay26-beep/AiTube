@@ -22,7 +22,7 @@ export function Header({ onMenuClick, onSearch, query }: HeaderProps) {
   };
 
   return (
-    <header className="fixed top-0 left-0 right-0 h-16 flex items-center justify-between px-6 bg-white/5 border-b border-white/10 backdrop-blur-md z-20">
+    <header className="fixed top-0 left-0 right-0 h-16 flex items-center justify-between px-6 bg-[#0f0f0f] z-20">
       <div className="flex items-center gap-4 w-1/4">
         <button 
           onClick={onMenuClick}
@@ -34,7 +34,7 @@ export function Header({ onMenuClick, onSearch, query }: HeaderProps) {
           <div className="w-8 h-8 bg-red-600 rounded-lg flex items-center justify-center">
             <div className="w-0 h-0 border-t-[6px] border-t-transparent border-l-[10px] border-l-white border-b-[6px] border-b-transparent ml-1"></div>
           </div>
-          <span className="text-xl font-bold tracking-tighter text-white">AITube</span>
+          <span className="text-xl font-bold tracking-tighter text-white">TechTube</span>
         </div>
       </div>
 
@@ -45,16 +45,16 @@ export function Header({ onMenuClick, onSearch, query }: HeaderProps) {
         >
           <input 
             type="text" 
-            placeholder="Search AI, Tech Startups, LLMs..." 
+            placeholder="Search Tech Tutorials, Programming, Engineering..." 
             value={localQuery}
             onChange={(e) => setLocalQuery(e.target.value)}
             onFocus={() => setIsFocused(true)}
             onBlur={() => setIsFocused(false)}
-            className="w-full bg-white/10 border border-white/10 rounded-full py-2 px-6 focus:outline-none focus:bg-white/20 transition-all text-sm text-white"
+            className="w-full bg-[#121212] border border-[#303030] rounded-l-full py-2 px-6 focus:outline-none focus:border-[#1c62b9] transition-all text-[16px] text-white"
           />
           <button 
             type="submit"
-            className="absolute right-4 top-2 text-white/40 cursor-pointer"
+            className="absolute right-0 top-0 bottom-0 bg-[#222222] border border-l-0 border-[#303030] rounded-r-full px-5 text-white/80 cursor-pointer hover:bg-[#303030] transition-colors"
           >
             <Search size={20} />
           </button>
@@ -73,14 +73,14 @@ export function Header({ onMenuClick, onSearch, query }: HeaderProps) {
             className="text-white/80 hover:text-white transition-colors relative hidden sm:block"
           >
             <Bell size={24} />
-            <span className="absolute top-0 right-0 w-2.5 h-2.5 bg-red-500 rounded-full border-2 border-[#020617]"></span>
+            <span className="absolute top-0 right-0 w-2.5 h-2.5 bg-red-500 rounded-full border-2 border-[#0f0f0f]"></span>
           </button>
 
           {showNotifications && (
             <div className="absolute top-full right-0 mt-4 w-80 bg-[#0f0f0f]/95 backdrop-blur-xl border border-white/10 rounded-xl shadow-2xl overflow-hidden py-2 animate-in fade-in slide-in-from-top-2">
               <h3 className="px-4 py-2 text-sm font-bold border-b border-white/5 text-white">Notifications</h3>
               <div className="p-4 hover:bg-white/5 transition-colors cursor-pointer border-l-2 border-indigo-500">
-                <p className="text-sm text-white/90">Welcome to <span className="font-bold text-indigo-400">Arjuna</span>! An educational platform for students. We are introducing AITube and DocRobe here to enhance your learning experience.</p>
+                <p className="text-sm text-white/90">Welcome to <span className="font-bold text-indigo-400">TechTube</span>! An educational platform for tech students.</p>
                 <p className="text-[10px] text-white/50 mt-2">Just now</p>
               </div>
             </div>
