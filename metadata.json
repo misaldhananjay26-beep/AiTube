@@ -1,0 +1,6 @@
+{
+  "name": "AITube",
+  "description": "A YouTube-like platform dedicated to AI and Tech tutorials, LLMs, and Startups.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
