@@ -1,6 +1,7 @@
 export function mockVideos(count: number) {
+  const realVideoIds = ['aircAruvnKk', 'fNxaJsNG3-s', 'zjkBMFhNj_g', 'bZQun8Y4L2A', '1bZ0OX0S0a8', 'dQw4w9WgXcQ', 'jNQXAC9IVRw'];
   return Array.from({ length: count }).map((_, i) => ({
-    id: `mock-video-${Math.random().toString(36).substring(2, 10)}-${i}`,
+    id: realVideoIds[i % realVideoIds.length],
     snippet: {
       title: `How to Build AI Startups in 2026 - Masterclass Part ${i + 1}`,
       description: "A comprehensive masterclass on building modern AI applications with LLMs and Agentic Frameworks. Zero to production.",
@@ -22,8 +23,9 @@ export function mockVideos(count: number) {
 }
 
 export function mockShorts(count: number) {
+  const realShortIds = ['m7CcjqT85rA', 'P_l_wK8s8v0', '6zJItM1Xm6I', 'S2_B50Zq5iQ'];
   return Array.from({ length: count }).map((_, i) => ({
-    id: `mock-short-${Math.random().toString(36).substring(2, 10)}-${i}`,
+    id: realShortIds[i % realShortIds.length],
     snippet: {
       title: `GPT-5 Features You missed! 🤯🔥 #shorts #ai`,
       description: "Quick update on the latest AI trends.",
