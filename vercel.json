@@ -1,0 +1,6 @@
+{
+  "rewrites": [
+    { "source": "/api/videos", "destination": "/api/videos" },
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
+}
