@@ -1,44 +1,79 @@
-export function mockVideos(count: number) {
-  const realVideoIds = ['aircAruvnKk', 'fNxaJsNG3-s', 'zjkBMFhNj_g', 'bZQun8Y4L2A', '1bZ0OX0S0a8', 'dQw4w9WgXcQ', 'jNQXAC9IVRw'];
-  return Array.from({ length: count }).map((_, i) => ({
-    id: realVideoIds[i % realVideoIds.length],
-    snippet: {
-      title: `How to Build AI Startups in 2026 - Masterclass Part ${i + 1}`,
-      description: "A comprehensive masterclass on building modern AI applications with LLMs and Agentic Frameworks. Zero to production.",
-      channelTitle: ["AI Architect", "Founder Daily", "Neural Notes", "Frontend Masters", "TechLead", "Fireship"][Math.floor(Math.random() * 6)],
-      publishedAt: new Date(Date.now() - Math.random() * 10000000000).toISOString(),
-      thumbnails: {
-        medium: { url: `https://picsum.photos/seed/video${i}${Math.random()}/640/360` },
-        high: { url: `https://picsum.photos/seed/video${i}${Math.random()}/640/360` },
-        maxres: { url: `https://picsum.photos/seed/video${i}${Math.random()}/1280/720` }
+export function mockVideos(count: number, query: string = "tech") {
+  const isWebDev = query.toLowerCase().includes('web') || query.toLowerCase().includes('react') || query.toLowerCase().includes('html');
+  const isMachineLearning = query.toLowerCase().includes('machine') || query.toLowerCase().includes('ai');
+  const isPython = query.toLowerCase().includes('python');
+  
+  const devVideos = [
+    { id: 'bMknfKXIFA8', title: 'React Course - Beginner\'s Tutorial for React JavaScript Library [2022]', channel: 'freeCodeCamp.org', duration: 'PT11H55M22S' },
+    { id: 'zJSY8tbf_ys', title: 'Frontend Web Development Bootcamp Course (JavaScript, HTML, CSS)', channel: 'freeCodeCamp.org', duration: 'PT21H14M43S' },
+    { id: 'mU6anWqZJcc', title: 'Learn HTML5 and CSS3 From Scratch - Full Course', channel: 'freeCodeCamp.org', duration: 'PT11H30M' }
+  ];
+
+  const mlVideos = [
+    { id: 'GwIoAwogpWU', title: 'Machine Learning for Everybody – Full Course', channel: 'freeCodeCamp.org', duration: 'PT3H53M' },
+    { id: 'NWONeJKn6kc', title: 'Deep Learning Crash Course for Beginners', channel: 'freeCodeCamp.org', duration: 'PT1H30M' },
+    { id: 'i_LwzRmAzo0', title: 'Neural Networks from Scratch - P.1 Intro and Neuron Code', channel: 'sentdex', duration: 'PT24M34S' }
+  ];
+
+  const pythonVideos = [
+    { id: 'rfscVS0vtbw', title: 'Learn Python - Full Course for Beginners [Tutorial]', channel: 'freeCodeCamp.org', duration: 'PT4H26M' },
+    { id: '8ext9G7xspg', title: 'Python Backend Web Development Course (with Django)', channel: 'freeCodeCamp.org', duration: 'PT10H' }
+  ];
+
+  const generalVideos = [
+    { id: 'kjBOesZCoqc', title: 'Complete Web Development Course', channel: 'Traversy Media', duration: 'PT2H' },
+    { id: 'PkZNo7MFNFg', title: 'Learn JavaScript - Full Course for Beginners', channel: 'freeCodeCamp.org', duration: 'PT3H26M' },
+    { id: 'zjkBMFhNj_g', title: 'Harvard CS50 – Full Computer Science University Course', channel: 'freeCodeCamp.org', duration: 'PT24H1M' },
+    { id: 'bZQun8Y4L2A', title: 'C++ Tutorial for Beginners - Full Course', channel: 'freeCodeCamp.org', duration: 'PT4H1M' }
+  ];
+
+  let videoPool = generalVideos;
+  if (isWebDev) videoPool = devVideos;
+  if (isMachineLearning) videoPool = mlVideos;
+  if (isPython) videoPool = pythonVideos;
+
+  return Array.from({ length: count }).map((_, i) => {
+    const video = videoPool[i % videoPool.length];
+    return {
+      id: video.id,
+      snippet: {
+        title: video.title,
+        description: `A comprehensive course about ${query}. This is a placeholder description since the API failed to connect.`,
+        channelTitle: video.channel,
+        publishedAt: new Date().toISOString(),
+        thumbnails: {
+          medium: { url: `https://i.ytimg.com/vi/${video.id}/mqdefault.jpg` },
+          high: { url: `https://i.ytimg.com/vi/${video.id}/hqdefault.jpg` },
+          maxres: { url: `https://i.ytimg.com/vi/${video.id}/maxresdefault.jpg` }
+        }
+      },
+      contentDetails: {
+        duration: video.duration
+      },
+      statistics: {
+        viewCount: Math.floor(Math.random() * 5000000).toString()
       }
-    },
-    contentDetails: {
-      duration: `PT${Math.floor(Math.random() * 60) + 5}M${Math.floor(Math.random() * 60)}S`
-    },
-    statistics: {
-      viewCount: Math.floor(Math.random() * 3000000).toString()
-    }
-  }));
+    };
+  });
 }
 
 export function mockShorts(count: number) {
-  const realShortIds = ['aircAruvnKk', 'zjkBMFhNj_g', 'bZQun8Y4L2A'];
+  const realShortIds = ['aircAruvnKk', 'zjkBMFhNj_g', 'bZQun8Y4L2A']; // Not actual shorts but video IDs for embed
   return Array.from({ length: count }).map((_, i) => ({
     id: realShortIds[i % realShortIds.length],
     snippet: {
-      title: `GPT-5 Features You missed! 🤯🔥 #shorts #ai`,
-      description: "Quick update on the latest AI trends.",
-      channelTitle: ["AI Shorts", "Tech Pulse", "Daily AI", "Startup Alpha", "Code Quickies"][Math.floor(Math.random() * 5)],
-      publishedAt: new Date(Date.now() - Math.random() * 1000000000).toISOString(),
+      title: `Programming Tips! 🤯🔥 #shorts #tech`,
+      description: "Quick update on the latest tech trends.",
+      channelTitle: "Code Quickies",
+      publishedAt: new Date().toISOString(),
       thumbnails: {
-        medium: { url: `https://picsum.photos/seed/short${i}${Math.random()}/360/640` },
-        high: { url: `https://picsum.photos/seed/short${i}${Math.random()}/360/640` },
-        maxres: { url: `https://picsum.photos/seed/short${i}${Math.random()}/540/960` }
+        medium: { url: `https://i.ytimg.com/vi/${realShortIds[i % realShortIds.length]}/mqdefault.jpg` },
+        high: { url: `https://i.ytimg.com/vi/${realShortIds[i % realShortIds.length]}/hqdefault.jpg` },
+        maxres: { url: `https://i.ytimg.com/vi/${realShortIds[i % realShortIds.length]}/maxresdefault.jpg` }
       }
     },
     contentDetails: {
-      duration: `PT${Math.floor(Math.random() * 50) + 10}S`
+      duration: `PT45S`
     },
     statistics: {
       viewCount: Math.floor(Math.random() * 5000000).toString()

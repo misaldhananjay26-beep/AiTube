@@ -132,7 +132,7 @@ export async function handleVideosRequest(req: any, res: any) {
         if (data.items.length === 0) throw new Error("No scraped results");
       } catch (scrapeError: any) {
         data = {
-          items: videoDuration === 'short' ? mockShorts(maxResults) : mockVideos(maxResults)
+          items: videoDuration === 'short' ? mockShorts(maxResults) : mockVideos(maxResults, q as string)
         };
       }
     }

@@ -45,7 +45,7 @@ export default function App() {
         } catch (fetchError) {
           console.warn("Falling back to mock data:", fetchError);
           const { mockVideos } = await import('../mockData');
-          data = { items: mockVideos(20) };
+          data = { items: mockVideos(20, query) };
         }
         setVideos(data.items || []);
       } catch (err: any) {
